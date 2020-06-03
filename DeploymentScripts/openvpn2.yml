@@ -1,0 +1,18 @@
+- hosts: DNET
+  vars:
+    clientname: Kawish
+  tasks:
+    - name: Automate Script
+      register: hello
+      expect:
+        echo: yes
+        command: "./openvpn-install.sh"
+        responses:
+            "Welcome to OpenVPN-install(.*)": "1"
+            "Client name: ": "{{clientname}}"
+            "Add a passwordless client": ""
+      become: true
+      become_user: root
+      args:
+        chdir: /home/kawish/vagrant_07
+    - debug: msg={{hello.stdout_lines}}

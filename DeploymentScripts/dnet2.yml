@@ -1,0 +1,47 @@
+- hosts: DNET
+  tasks:
+
+    - name: Add Bridge on DNET machine
+      command: ovs-vsctl add-br br97
+      register: out
+      become: true
+      become_user: root
+      args:
+        chdir: /home/kawish/vagrant_07
+    - debug: var=out
+
+    - name: Assign IP
+      command: ip tuntap add mode tap tap1
+      register: out
+      become: true
+      become_user: root
+      args:
+        chdir: /home/kawish/vagrant_07
+    - debug: var=out
+
+    - name: Up tap0
+      command: ifconfig tap1 up
+      register: out
+      become: true
+      become_user: root
+      args:
+        chdir: /home/kawish/vagrant_07
+    - debug: var=out
+
+    - name: Add port
+      command: ovs-vsctl add-port br97 tap1
+      register: out
+      become: true
+      become_user: root
+      args:
+        chdir: /home/kawish/vagrant_07
+    - debug: var=out
+
+    - name: Set interface
+      command: ovs-vsctl add-port br97 vxlan0 -- set interface vxlan0 type=vxlan option=remote_ip=10.8.0.3
+      register: out
+      become: true
+      become_user: root
+      args:
+        chdir: /home/kawish/vagrant_07
+    - debug: var=out

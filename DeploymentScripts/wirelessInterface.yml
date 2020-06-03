@@ -1,0 +1,14 @@
+- hosts: cyberlab
+  vars:
+    Interface:
+       wlp8s0
+  tasks:
+
+   - name: get interface status
+     command: ovs-vsctl get Interface {{Interface}} ofport
+     register: out
+     become: true
+     become_user: root
+
+   - debug: msg={{out.stdout}}
+

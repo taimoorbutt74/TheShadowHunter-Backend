@@ -1,0 +1,8 @@
+- hosts: localhost
+  tasks:
+    - name: Insert/Update "Match User" configuration block in /etc/ssh/sshd_config
+      blockinfile:
+        path: /home/kawish/Documents
+        block: |
+          Taim FM.odt ansible-agent
+          PasswordAuthentication no

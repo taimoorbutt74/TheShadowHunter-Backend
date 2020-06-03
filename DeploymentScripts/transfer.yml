@@ -1,0 +1,32 @@
+- hosts: DNET
+  vars:
+   vpn_name:
+     client
+  tasks:
+    - name: Transfer file on Controller machine
+      fetch:
+        src: /home/kawish/{{vpn_name}}.ovpn
+        dest: /home/kawish/vagrant_1/
+        flat: yes
+      register: out
+      become: true
+      become_user: root
+
+    - debug: var=out
+
+- hosts: vagrant
+  vars:
+   vpn_name:
+     client
+   username:
+     cyberlab
+  tasks:
+    - name: Transfer file on cyberlab machine
+      copy:
+        src: /home/kawish/vagrant_1/{{vpn_name}}.ovpn
+        dest: /home/{{username}}/centos_1/
+      register: out
+      become: true
+      become_user: root
+
+    - debug: var=out

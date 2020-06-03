@@ -1,0 +1,45 @@
+- hosts: vagrant
+  vars:
+    interface:
+      wlp2s0
+  tasks:
+
+    - name: Add Bridge on cyberlab machine
+      command: ovs-vsctl add-br br0
+      register: out
+      become: true
+      become_user: root
+      args:
+        chdir: /home/cyberlab/centos_1
+
+    - debug: var=out
+
+    - name: Add Wifi interface in Bridge on cyberlab machine
+      command: ovs-vsctl add-port br0 {{interface}}
+      register: out
+      become: true
+      become_user: root
+      args:
+        chdir: /home/cyberlab/centos_1
+
+    - debug: var=out
+
+    - name: Close Connection 
+      command: ifconfig {{interface}} 0
+      register: out
+      become: true
+      become_user: root
+      args:
+        chdir: /home/cyberlab/centos_1
+
+    - debug: var=out
+
+    - name: Assign IP
+      command: dhclient br0
+      register: out
+      become: true
+      become_user: root
+      args:
+        chdir: /home/cyberlab/centos_1
+
+    - debug: var=out

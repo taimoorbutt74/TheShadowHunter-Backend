@@ -1,0 +1,23 @@
+- hosts: vagrant
+  tasks:
+
+    - name: Reload Virtual Machine
+      command: vagrant reload
+      register: out
+      become: true
+      become_user: root
+      args:
+        chdir: /home/cyberlab/onetmysql
+    - debug: var=out
+
+- hosts: DNET
+  tasks:
+
+    - name: Reload Virtual Machine
+      command: vagrant reload
+      register: out
+      become: true
+      become_user: root
+      args:
+        chdir: /home/kawish/dnetmysql
+    - debug: var=out

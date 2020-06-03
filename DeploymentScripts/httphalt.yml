@@ -1,0 +1,24 @@
+- hosts: vagrant
+  tasks:
+
+    - name: Halt Virtual Machine
+      command: vagrant halt
+      register: out
+      become: true
+      become_user: root
+      args:
+        chdir: /home/cyberlab/onethttp
+
+    - debug: var=out
+
+- hosts: DNET
+  tasks:
+
+    - name: Halt Virtual Machine
+      command: vagrant halt
+      register: out
+      become: true
+      become_user: root
+      args:
+        chdir: /home/kawish/dnethttp
+    - debug: var=out

@@ -1,0 +1,12 @@
+- hosts: vagrant
+  tasks:
+
+    - name: Assign IP
+      command: dhclient br7 
+      register: out
+      become: true
+      become_user: root
+      args:
+        chdir: /home/cyberlab/centos_1
+
+    - debug: var=out

@@ -1,0 +1,43 @@
+- hosts: vagrant
+  vars:
+    vpn_name:
+      client
+    username:
+      cyberlab
+  tasks:
+
+    - name: Set Metric Value low  ifmetric wlx00e126000a24 10
+      command: ifconfig
+      register: out
+      become: true
+      become_user: root
+      args:
+        chdir: /home/{{username}}/centos_1
+    - debug: var=out
+
+    - name: Install network manager on cyberlab machine
+      command: apt install network-manager-openvpn-gnome openvpn-systemd-resolved
+      register: out
+      become: true
+      become_user: root
+      args:
+        chdir: /home/{{username}}/centos_1
+    - debug: var=out
+
+    - name: Import openvpn file 
+      command: nmcli connection import type openvpn file /home/{{username}}/centos_1/{{vpn_name}}.ovpn
+      register: out
+      become: true
+      become_user: root
+      args:
+        chdir: /home/{{username}}/centos_1
+    - debug: var=out
+
+    - name: UP Connection 
+      command: nmcli connection up {{vpn_name}}
+      register: out
+      become: true
+      become_user: root
+      args:
+        chdir: /home/{{username}}/centos_1
+    - debug: var=out

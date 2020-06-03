@@ -1,0 +1,22 @@
+- hosts: vagrant
+  tasks:
+    - name: Vagrant up on cyberlab machine
+      command: vagrant up 
+      register: out
+      become: true
+      become_user: root
+      args:
+        chdir: /home/cyberlab/centos_1
+    - debug: var=out
+
+    - name: Vagrant up on cyberlab machine
+      command: vagrant ssh -c "hostname -I | cut -d' ' -f2" 
+      register: out
+      become: true
+      become_user: root
+      args:
+        chdir: /home/cyberlab/centos_1
+    - debug: var=out
+
+
+

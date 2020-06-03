@@ -1,0 +1,58 @@
+- hosts: vagrant
+  tasks:
+    - name: Delete Bridge
+      command: ovs-vsctl del-br br7
+      register: out
+      become: true
+      become_user: root
+      args:
+        chdir: /home/cyberlab/centos_1
+    - debug: var=out
+
+    - name: Delete Port
+      command: ovs-vsctl del-port br0 vxlan0
+      register: out
+      become: true
+      become_user: root
+      args:
+        chdir: /home/cyberlab/centos_1
+    - debug: var=out
+
+
+- hosts: DNET
+  tasks:
+    - name: Delete Bridge
+      command: ovs-vsctl del-br br47
+      register: out
+      become: true
+      become_user: root
+      args:
+        chdir: /home/kawish/vagrant_07
+    - debug: var=out
+
+    - name: Delete port
+      command: ovs-vsctl del-port br0 vxlan0
+      register: out
+      become: true
+      become_user: root
+      args:
+        chdir: /home/kawish/vagrant_07
+    - debug: var=out
+
+    - name: Delete IP Link
+      command: ip link delete tap0
+      register: out
+      become: true
+      become_user: root
+      args:
+        chdir: /home/kawish/vagrant_07
+    - debug: var=out
+
+    - name: Down virbr0
+      command: ifconfig virbr0 down
+      register: out
+      become: true
+      become_user: root
+      args:
+        chdir: /home/kawish/vagrant_07
+    - debug: var=out

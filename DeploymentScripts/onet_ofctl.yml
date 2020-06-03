@@ -1,0 +1,9 @@
+- hosts: kawish
+  tasks:
+
+    - name: get bridge status
+      command: ovs-ofctl show br0
+      register: out
+      become: true
+      become_user: root
+    - debug: msg={{out.stdout}}

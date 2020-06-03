@@ -1,0 +1,10 @@
+- hosts: cyberlab
+  tasks:
+
+    - name: Get interface name
+      command: iwgetid
+      register: out
+      become: true
+      become_user: root
+
+    - debug: msg={{out.stdout}}

@@ -1,0 +1,9 @@
+- hosts: vagrant
+  vars:
+   username:
+     cyberlab
+  tasks:
+  - name: ansible create directory example
+    file:
+      path: /home/{{username}}/centos_1
+      state: directory

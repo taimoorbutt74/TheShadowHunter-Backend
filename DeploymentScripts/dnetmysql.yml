@@ -1,0 +1,32 @@
+- hosts: DNET
+  vars:
+     interface:
+        tap56
+     IPaddress:
+        192.168.0.1
+     macAddress:
+        00:00:00:00:00:00
+
+  tasks:
+
+    - name: Add VM to a specific port and IPaddress
+      register: out
+      become: true
+      become_user: root
+      lineinfile:
+        path: /home/kawish/dnetmysql/Vagrantfile
+        state: present
+        regexp: ".*\\w*.\\w*.\\w*\\W\\Wpublic_network\\W.*"
+        line: "  config.vm.network \"public_network\" , bridge: \"{{interface}}\" , ip: \"{{IPaddress}}\" , mac: \"{{macAddress}}\" "
+        backup: yes
+
+    - name: Vagrant up on DNET machine
+      command: vagrant up
+      register: out
+      become: true
+      become_user: root
+      args:
+        chdir: /home/kawish/dnetmysql/
+
+    - debug: var=out
+

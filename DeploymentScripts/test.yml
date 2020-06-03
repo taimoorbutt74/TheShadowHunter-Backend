@@ -1,0 +1,7 @@
+- hosts: localhost
+  tasks:
+    - name: Vagrant up on cyberlab machine
+      command: ifconfig
+      register: out
+
+    - debug: var=out

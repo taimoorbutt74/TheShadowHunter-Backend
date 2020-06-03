@@ -1,0 +1,13 @@
+- hosts: vagrant
+  tasks:
+    - name: Install-Ovs on cyberlab machine
+      command: apt-get install openvswitch-switch
+      register: out
+      become: true
+      become_user: root
+      args:
+        chdir: /home/cyberlab/centos_1
+
+    - debug: var=out
+
+        

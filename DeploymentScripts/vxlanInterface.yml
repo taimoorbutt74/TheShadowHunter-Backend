@@ -1,0 +1,11 @@
+- hosts: cyberlab
+
+  tasks:
+
+    - name: get vxlan0 status
+      command: ovs-vsctl get Interface vxlan0 ofport
+      register: out
+      become: true
+      become_user: root
+
+    - debug: msg={{out.stdout}}

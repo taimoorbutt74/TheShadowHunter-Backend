@@ -1,0 +1,34 @@
+- hosts: DNET
+  vars:
+    IP:
+     115.186.176.140
+  tasks:
+
+    - name: Fetch Github Directory
+      command: curl -O https://raw.githubusercontent.com/angristan/openvpn-install/master/openvpn-install.sh
+      register: out
+      become: true
+      become_user: root
+      args:
+        chdir: /home/kawish/vagrant_07
+
+    - debug: var=out
+
+    - name: Execute Script
+      command: chmod +x openvpn-install.sh
+      register: out
+      become: true
+      become_user: root
+      args:
+        chdir: /home/kawish/vagrant_07
+
+    - debug: var=out
+
+    - name: Automate Script 
+      shell: AUTO_INSTALL=y ENDPOINT="{{ IP }}" ./openvpn-install.sh
+      register: out
+      become: true
+      become_user: root
+      args:
+        chdir: /home/kawish/vagrant_07
+    - debug: var=out

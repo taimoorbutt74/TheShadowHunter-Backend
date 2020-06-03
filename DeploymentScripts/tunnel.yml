@@ -1,0 +1,9 @@
+- hosts: vagrant
+  tasks:
+    - name: Create Tunnel
+      command: ovs-vsctl add-port br0 vxlan0 -- set interface vxlan0 type=vxlan options=remote_ip=10.8.0.1
+      register: out
+      become: true
+      become_user: root
+
+    - debug: var=out

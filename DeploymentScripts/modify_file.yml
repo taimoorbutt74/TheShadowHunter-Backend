@@ -1,0 +1,22 @@
+- hosts: vagrant
+  tasks:
+    - name: Bridge the vm on cyberlab machine
+      become: true
+      become_user: root
+      lineinfile:
+        path: /home/cyberlab/centos_1/Vagrantfile
+        backup: yes
+        insertafter: '# Create a public network,*'
+        line: '   config.vm.network "public_network", type:"dhcp" ,bridge:"wlp8s0"'
+
+    - name: Vagrant up on cyberlab machine
+      command: vagrant up
+      register: out
+      become: true
+      become_user: root
+      args:
+        chdir: /home/cyberlab/centos_1
+
+    - debug: var=out
+
+

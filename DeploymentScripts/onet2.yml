@@ -1,0 +1,44 @@
+- hosts: vagrant
+  tasks:
+
+    - name: Add Bridge on cyberlab machine
+      command: ovs-vsctl add-br br2
+      register: out
+      become: true
+      become_user: root
+      args:
+        chdir: /home/cyberlab/centos_1
+    - debug: var=out
+
+    - name: Bridge-Ovs on cyberlab machine
+      command: ovs-vsctl add-port br2 wlp2s0
+      register: out
+      become: true
+      become_user: root
+      args:
+        chdir: /home/cyberlab/centos_1
+    - debug: var=out
+
+    - name: Close Connection 
+      command: ifconfig wlp2s0 0
+      register: out
+      become: true
+      become_user: root
+      args:
+        chdir: /home/cyberlab/centos_1
+    - debug: var=out
+
+    - name: Assign IP
+      command: ifconfig br2 172.20.16.124/24
+      register: out
+      become: true
+      become_user: root
+      args:
+        chdir: /home/cyberlab/centos_1
+    - debug: var=out
+
+
+
+
+
+
